@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thinkora: Tricky Brain Puzzles</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#4F8DFF;--bg2:#2B4FD8;--ink:#1D2150;--y:#FFC83D;--yd:#D99A00;--g:#35C46B;--gd:#1E9A4E;--r:#FF5252;--rd:#C93434;--b:#3AA0FF;--bd:#1F72C8;--sh:rgba(0,0,0,.22);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:linear-gradient(165deg,var(--bg),var(--bg2));background-attachment:fixed;color:var(--ink);font:500 19px/1.25 Fredoka,"Baloo 2",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:radial-gradient(rgba(255,255,255,.14) 2.5px,transparent 3px);background-size:28px 28px}
+.bk{position:fixed;bottom:-120px;opacity:.4;z-index:-1;animation:rise linear infinite;user-select:none}
+@keyframes rise{to{transform:translateY(-125vh)}}
+main{max-width:460px;min-height:100vh;margin:0 auto;padding:18px 16px 40px}
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.lvl{color:#fff;font-size:32px;font-weight:700;text-shadow:0 4px 0 var(--sh);text-align:center;line-height:1}
+.lvl small{display:block;font-size:16px;margin-top:6px;text-shadow:none;background:rgba(0,0,0,.2);border-radius:99px;padding:2px 12px}
+.round{width:50px;height:50px;border-radius:50%;border:0;background:linear-gradient(#fff,#e6ecff);box-shadow:0 5px 0 var(--sh);font-size:22px;cursor:pointer;position:relative;font-family:inherit;color:var(--ink)}
+.round:active{transform:translateY(4px);box-shadow:0 1px 0 var(--sh)}
+.badge{position:absolute;top:-7px;right:-9px;background:var(--y);color:#5A3B00;font-size:13px;font-weight:700;border-radius:99px;padding:1px 7px;box-shadow:0 2px 0 var(--yd)}
+.card{position:relative;background:linear-gradient(#fff,#f3f6ff);border-radius:32px;padding:0 16px 20px;box-shadow:0 9px 0 var(--sh);text-align:center;margin:84px 0 24px}
+.stage{position:relative;width:152px;height:152px;margin:-76px auto 8px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#fff,#dde7ff 55%,#aebfff);box-shadow:0 8px 0 var(--sh),inset 0 -9px 0 rgba(0,0,0,.08);display:grid;place-items:center;font-size:84px;animation:float 3s ease-in-out infinite}
+.stage::before,.stage::after{content:'✨';position:absolute;font-size:26px;animation:tw 1.8s ease-in-out infinite}
+.stage::before{top:2px;right:2px}.stage::after{bottom:8px;left:-6px;animation-delay:.9s}
+@keyframes float{50%{transform:translateY(-8px)}}@keyframes tw{50%{transform:scale(1.5) rotate(20deg);opacity:.5}}
+.peek{position:absolute;right:6px;top:-44px;transform:rotate(8deg)}
+.q{font-size:27px;font-weight:700;line-height:1.15;margin:6px 0 2px}
+.hintbox{min-height:26px;margin-top:8px;font-size:17px;color:#7a6200}.hintbox.err{color:var(--rd);font-weight:700}
+.btn{display:block;width:100%;border:0;border-radius:22px;padding:15px 18px;font:inherit;font-weight:700;font-size:24px;color:#fff;background:linear-gradient(rgba(255,255,255,.3),transparent 55%),var(--g);box-shadow:0 7px 0 var(--gd),0 14px 20px rgba(0,0,0,.18);cursor:pointer;margin-bottom:18px;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(6px);box-shadow:0 1px 0 var(--gd)}
+.btn.y{background:linear-gradient(rgba(255,255,255,.45),transparent 55%),var(--y);color:#5A3B00;box-shadow:0 7px 0 var(--yd),0 14px 20px rgba(0,0,0,.18)}.btn.y:active{box-shadow:0 1px 0 var(--yd)}
+.btn.w{background:linear-gradient(#fff,#e6ecff);color:var(--ink);box-shadow:0 7px 0 var(--sh)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px}.opts.one{grid-template-columns:1fr}
+.opt{position:relative;border:0;border-radius:22px;padding:18px 8px;min-height:74px;font:inherit;font-weight:700;font-size:22px;color:#fff;background:linear-gradient(rgba(255,255,255,.3),transparent 55%),var(--b);box-shadow:0 7px 0 var(--bd),0 12px 16px rgba(0,0,0,.15);cursor:pointer;display:grid;place-items:center;line-height:1.1;transition:transform .08s,box-shadow .08s}
+.opt:active:not(:disabled){transform:translateY(6px);box-shadow:0 1px 0 var(--bd)}
+.opt.bad{background:linear-gradient(rgba(255,255,255,.3),transparent 55%),var(--r);box-shadow:0 7px 0 var(--rd);animation:shake .4s}
+.opt.got{background:linear-gradient(rgba(255,255,255,.3),transparent 55%),var(--g);box-shadow:0 7px 0 var(--gd)}
+.opt i{position:absolute;top:-8px;left:-6px;background:#fff;color:var(--gd);font-style:normal;font-size:16px;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;box-shadow:0 2px 0 var(--sh)}
+@keyframes shake{20%{transform:translateX(-9px)}60%{transform:translateX(9px)}}
+.big{font-size:90px;font-weight:700;color:#fff;text-align:center;text-shadow:0 6px 0 var(--sh);line-height:1.1}
+.arena{position:relative;height:290px}
+.tap{position:absolute;left:calc(50% - 90px);top:40px;width:180px;height:180px;border-radius:50%;border:0;background:radial-gradient(circle at 35% 28%,#ffe58a,var(--y));color:#5A3B00;font:inherit;font-weight:700;font-size:38px;box-shadow:0 10px 0 var(--yd),0 18px 24px rgba(0,0,0,.2);cursor:pointer;transition:left .18s,top .18s;touch-action:none}
+.tap:active{margin-top:8px;box-shadow:0 2px 0 var(--yd)}
+.mrow{display:flex;gap:10px;justify-content:center;margin-bottom:10px}.mrow span{flex:1;background:#fff;border-radius:20px;font-size:52px;text-align:center;padding:14px 0;box-shadow:0 6px 0 var(--sh)}
+.tbar{height:16px;border-radius:9px;background:rgba(0,0,0,.25);overflow:hidden;margin-bottom:16px}.tbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#FFC83D,#FF5252)}
+.logo{font-size:64px;line-height:.92;font-weight:700;color:#fff;text-align:center;margin:8px 0 10px;text-shadow:0 5px 0 var(--sh),0 10px 24px rgba(0,0,0,.25);transform:rotate(-3deg)}.logo span{color:var(--y)}
+.sub{text-align:center;color:#fff;margin:0 0 18px;font-size:20px}
+.pills{display:flex;gap:10px;justify-content:center;margin-bottom:22px}.pills b{background:rgba(0,0,0,.22);color:#fff;border-radius:99px;padding:4px 16px;font-size:18px}
+.hero{text-align:center;filter:drop-shadow(0 14px 0 rgba(0,0,0,.18))}.brain{display:block;margin:0 auto}.bob{animation:bob 1.3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(3deg)}}
+.eyes{animation:blink 4s infinite;transform-box:fill-box;transform-origin:center}@keyframes blink{94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.lg{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.lt{aspect-ratio:1;border:0;border-radius:20px;font:inherit;font-size:22px;font-weight:700;background:linear-gradient(#fff,#e6ecff);color:var(--ink);box-shadow:0 6px 0 var(--sh);cursor:pointer;line-height:1}
+.lt small{display:block;font-size:14px;color:#FFC83D;text-shadow:0 1px 0 rgba(0,0,0,.3);margin-top:2px;letter-spacing:1px}
+.lt.done{background:linear-gradient(rgba(255,255,255,.3),transparent 55%),var(--g);color:#fff;box-shadow:0 6px 0 var(--gd)}
+.lt.now{background:linear-gradient(rgba(255,255,255,.45),transparent 55%),var(--y);color:#5A3B00;box-shadow:0 6px 0 var(--yd)}
+.lt.lock{background:rgba(255,255,255,.28);color:rgba(255,255,255,.85);box-shadow:none;cursor:default}
+#md{position:fixed;inset:0;background:rgba(14,16,50,.65);display:none;place-items:center;padding:20px;z-index:9}
+#md.on{display:grid}#md .card{max-width:380px;width:100%;margin:0;padding-top:20px;animation:pop .35s}
+@keyframes pop{from{transform:scale(.5);opacity:0}}
+#md h2{font-size:38px;margin:6px 0 2px;color:var(--gd)}#md h2.sad{color:var(--rd)}
+#md p{margin:0 0 12px;color:#555a86;font-size:20px}
+.stars span{font-size:50px;color:#d3d8ef;display:inline-block;text-shadow:0 4px 0 rgba(0,0,0,.1)}
+.stars .on{color:var(--y);text-shadow:0 4px 0 var(--yd);animation:pop .45s both}
+.gain{display:inline-block;background:#FFF3C4;color:#7a5a00;border-radius:99px;padding:3px 16px;margin-bottom:14px;font-weight:700}
+#cf{position:fixed;inset:0;pointer-events:none;z-index:20}
+.hat{position:absolute;top:-34px;left:50%;font-size:64px;transform:translateX(-50%) rotate(-10deg);filter:drop-shadow(0 4px 0 rgba(0,0,0,.2))}.pads{display:grid;grid-template-columns:1fr 1fr;gap:14px}.pad{height:118px;border-radius:26px;border:0;opacity:.78;box-shadow:0 8px 0 rgba(0,0,0,.3);transition:all .12s;cursor:pointer}.pad.lit{opacity:1;filter:brightness(1.35);transform:scale(1.05);box-shadow:0 0 36px #fff}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.pc{aspect-ratio:1;border:0;border-radius:16px;background:linear-gradient(rgba(255,255,255,.3),transparent 55%),#FF4D8D;box-shadow:0 6px 0 #B02C63;font:inherit;font-size:34px;color:#fff;cursor:pointer}.pc.open{background:#fff;color:#000;box-shadow:0 6px 0 var(--sh)}.pc.done{background:var(--g);color:#fff;box-shadow:0 6px 0 var(--gd)}
+.fld{font-size:34px;line-height:1.35;margin:8px 0 2px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 2px}.cell{border-radius:14px;background:#EEF1FF;padding:8px 0;text-align:center;font-size:26px;font-weight:700;line-height:1.3}.cell.qm{background:linear-gradient(135deg,#FF4D8D,#FFB703);color:#fff}.vrow{display:flex;gap:6px;justify-content:center;align-items:center}.vrow svg{width:100%;max-width:56px;height:auto}.vq{flex:1;max-width:56px;aspect-ratio:1;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,#FF4D8D,#FFB703);color:#fff;font-size:28px;font-weight:700}.opt svg{max-width:64px;height:auto}.opt.bad[style*="background"]{filter:grayscale(1);opacity:.5}.pg{display:flex;align-items:center;justify-content:space-between;margin-top:24px;color:#fff;font-size:22px;font-weight:700}
+.hero{position:relative;padding-top:34px}.rays{position:absolute;left:50%;top:50%;width:440px;height:440px;margin:-220px 0 0 -220px;fill:rgba(255,255,255,.14);z-index:-1;animation:spin 50s linear infinite;pointer-events:none}@keyframes spin{to{transform:rotate(360deg)}}.hills{position:fixed;left:0;bottom:0;width:100%;height:110px;z-index:-1;pointer-events:none}
+button:focus-visible{outline:4px solid #fff;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main><div id="md"></div><canvas id="cf"></canvas>
+<script>
+const $=document.getElementById('app'),MD=document.getElementById('md');
+const store=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
+const em=a=>a.map(t=>({t,s:50}));
+const LV=[
+{e:'⚖️',q:'Which one is heavier?',o:['1 kg of feathers 🪶','1 kg of iron 🔩','They weigh the same'],a:2,h:'Look at the numbers.',w:'Both are exactly 1 kg!'},
+{e:'🔢',q:'Tap the biggest number!',o:[{t:'3',s:68},{t:'9',s:24},{t:'6',s:46},{t:'4',s:36}],a:1,h:'Numbers, not sizes!',w:'9 is the biggest number, even when it looks small.'},
+{e:'📅',q:'How many months have 28 days?',o:['1','2','12'],a:2,h:'Think about February and all the others.',w:'Every month has at least 28 days!'},
+{e:'🤫',q:'Do NOT touch the screen for 5 seconds!',type:'wait',h:'Seriously. Just wait.',w:'Patience is a superpower.'},
+{e:'🐑',q:'A farmer has 17 sheep. All but 9 run away. How many are left?',o:['8','9','17'],a:1,h:'Read “all but 9” slowly.',w:'“All but 9” means 9 stayed behind.'},
+{e:'🧐',q:'Find the odd one out!',o:em(['🍎','🍎','🍏','🍎']),a:2,h:'Look at the colors.',w:'One apple is green!'},
+{e:'🌙',q:'What comes next? 🌑 🌒 🌓 🌔',o:em(['🌖','🌕','🌑']),a:1,h:'The moon keeps growing.',w:'A full moon comes after the gibbous moon.'},
+{e:'👆',q:'Tap the button 10 times!',type:'taps',n:10,h:'Tap fast!',w:'Quick fingers!'},
+{e:'🚢',q:'How many animals of each kind did Moses take on the ark?',o:['2','None','7'],a:1,h:'Who built the ark?',w:'It was Noah, not Moses!'},
+{e:'👧',q:'Mary’s dad has 4 daughters: Nana, Nene, Nini and…?',o:['Nono','Mary','Nunu'],a:1,h:'Whose dad is it?',w:'It’s Mary’s dad, so Mary is the 4th daughter.'},
+{e:'🧠',q:'Memorize the order!',type:'mem',m:['🐸','🦊','🐶','🐱'],h:'Say the animals out loud.',w:'Memory master!'},
+{e:'💧',q:'What gets wetter the more it dries?',o:['A towel','A sponge','Soap'],a:0,h:'You use it after a shower.',w:'A towel!'},
+{e:'➖',q:'How many times can you subtract 5 from 25?',o:['5 times','Once','Forever'],a:1,h:'After the first time, it’s no longer 25.',w:'After once, you’re subtracting from 20!'},
+{e:'🏃',q:'Catch the button! Tap it 6 times!',type:'taps',n:6,move:1,h:'It moves after every tap. Be quick!',w:'Got it!'},
+{e:'👣',q:'The more you take, the more you leave behind. What am I?',o:['Footsteps','Money','Cake'],a:0,h:'Think about walking.',w:'Footsteps!'},
+{e:'🔤',q:'How many letters are in “the alphabet”?',o:['26','11','10'],a:1,h:'Count the letters in those two words.',w:'t-h-e-a-l-p-h-a-b-e-t makes 11 letters!'},
+{e:'💪',q:'Press and HOLD the button for 3 seconds!',type:'hold',h:'Don’t let go!',w:'Strong fingers!'},
+{e:'🕰️',q:'What has hands but can’t clap?',o:['A clock','A robot','A monkey'],a:0,h:'It tells you something.',w:'A clock has hands but can’t clap!'},
+{e:'⏱️',q:'Quick! 8 − 3 × 2 = ?',tm:7,o:['10','2','7'],a:1,h:'Multiply first.',w:'3 × 2 = 6, then 8 − 6 = 2.'},
+{e:'🔮',q:'What is always in front of you but can’t be seen?',o:['The future','Air','A wall'],a:0,h:'It hasn’t happened yet.',w:'The future!'},
+{e:'🕯️',q:'You have one match and enter a room with a candle, a lamp and a fireplace. What do you light first?',o:['Candle','Lamp','The match'],a:2,h:'You need it before anything else.',w:'The match!'},
+{e:'🐓',q:'A rooster lays an egg on a sloped roof. Which way does it roll?',o:['Left','Right','Neither'],a:2,h:'Think about the rooster.',w:'Roosters don’t lay eggs!'},
+{e:'🤧',q:'What can you catch but not throw?',o:['A ball','A cold','A frisbee'],a:1,h:'Achoo!',w:'A cold!'},
+{e:'🧮',q:'Which is bigger: 0.9 or 0.11?',o:['0.9','0.11','Same'],a:0,h:'Compare the tenths.',w:'0.9 is nine tenths. 0.11 is only about one tenth.'}];
+LV.splice(8,0,{e:'🎵',q:'Watch the pads, then repeat the pattern!',type:'simon',m:[0,2,1,3],h:'Say the colors out loud.',w:'Great ears and eyes!'});
+LV.splice(18,0,{e:'🃏',q:'Find all the matching pairs!',type:'pairs',m:['🐶','🐱','🐸','🐶','🦊','🐱','🐸','🦊','🐼','🐼','🐵','🐵'],h:'Remember where each card is.',w:'Perfect memory!'});
+const TOTAL=1000,PG=25;
+const R=s=>{let a=(s*2654435761)>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
+const pk=(r,a)=>a[Math.floor(r()*a.length)],ri=(r,a,b)=>a+Math.floor(r()*(b-a+1)),sh=(r,a)=>a.map(x=>[r(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const FAM=[
+r=>{const [a,b]=pk(r,[['feathers 🪶','iron 🔩'],['cotton ☁️','stone 🪨'],['balloons 🎈','bricks 🧱'],['paper 📄','lead ⚓'],['popcorn 🍿','rocks 🪨'],['cushions 🛋️','coins 🪙']]),n=pk(r,[1,2,5,10]),u=pk(r,['kg','kg','lb']),same='They weigh the same',O=sh(r,[`${n} ${u} of ${a}`,`${n} ${u} of ${b}`,same]);
+ return{e:'⚖️',q:'Which one is heavier?',o:O,a:O.indexOf(same),h:'Look at the numbers.',w:`Both are exactly ${n} ${u}!`}},
+r=>{const ns=[];while(ns.length<4){const x=ri(r,2,99);if(!ns.includes(x))ns.push(x)}const big=Math.max(...ns),ord=[...ns].sort((a,b)=>b-a),flip=r()<.3,Z=[26,38,52,70];
+ return{e:'🔢',q:'Tap the biggest number!',o:ns.map(n=>({t:String(n),s:Z[flip?3-ord.indexOf(n):ord.indexOf(n)]})),a:ns.indexOf(big),h:'Numbers, not sizes!',w:`${big} is the biggest number, even when it looks small.`}},
+r=>{const T=ri(r,10,40);let N=ri(r,2,T-3);if(N*2==T)N++;const a=pk(r,[['🐑','sheep'],['🐱','cats'],['🐔','chickens'],['🐮','cows']]),O=sh(r,[String(N),String(T-N),String(T)]);
+ return{e:a[0],q:`A farmer has ${T} ${a[1]}. All but ${N} run away. How many are left?`,o:O,a:O.indexOf(String(N)),h:'Read “all but” slowly.',w:`“All but ${N}” means ${N} stayed behind.`}},
+r=>{const [a,b]=pk(r,[['🍎','🍏'],['😀','😃'],['🐶','🐕'],['🌕','🌝'],['🔴','🟠'],['⭐','🌟'],['🐢','🐊'],['🍋','🍌'],['🍓','🍒']]),n=ri(r,6,8),k=ri(r,0,n-1);
+ return{e:'🧐',q:'Find the odd one out!',o:Array.from({length:n},(_,j)=>({t:j==k?b:a,s:44})),a:k,h:'Look very closely.',w:`Spotted ${b}!`}},
+(r,d)=>{const n=Math.min(6,3+Math.floor(d*4)+(r()<.3?1:0));return{e:'🧠',q:'Memorize the order!',type:'mem',m:sh(r,['🐸','🦊','🐶','🐱','🐼','🐵','🦁','🐯','🐷','🐰']).slice(0,n),h:'Say them out loud.',w:'Memory master!'}},
+r=>{const n=ri(r,3,9);return{e:'🤫',q:`Do NOT touch the screen for ${n} seconds!`,type:'wait',s:n,h:'Seriously. Just wait.',w:'Patience is a superpower.'}},
+(r,d)=>{const k=ri(r,8,14)+Math.floor(d*14),mv=r()<.5,n=mv?Math.ceil(k/2):k;return{e:mv?'🏃':'👆',q:mv?`Catch the button! Tap it ${n} times!`:`Tap the button ${n} times!`,type:'taps',n,move:mv?1:0,h:'Be quick!',w:'Quick fingers!'}},
+(r,d)=>{const s=ri(r,2,4)+(d>.5?1:0);return{e:'💪',q:`Press and HOLD the button for ${s} seconds!`,type:'hold',hs:s,h:'Don’t let go!',w:'Strong fingers!'}},
+(r,d)=>{const a=ri(r,2,15),b=ri(r,2,9),c=ri(r,2,9),pl=r()<.5,ans=pl?a+b*c:a*b-c,S=new Set([ans,pl?(a+b)*c:a*(b-c)]);while(S.size<3)S.add(ans+ri(r,-6,6));const O=sh(r,[...S].map(String));
+ return{e:'⏱️',q:`Quick! ${pl?`${a} + ${b} × ${c}`:`${a} × ${b} − ${c}`} = ?`,tm:Math.max(4,9-Math.floor(d*5)),o:O,a:O.indexOf(String(ans)),h:'Multiply first.',w:`Multiplication comes first, so the answer is ${ans}.`}},
+r=>{const k=ri(r,2,9),N=k*ri(r,3,8),O=sh(r,['Once',`${N/k} times`,'Forever']);return{e:'➖',q:`How many times can you subtract ${k} from ${N}?`,o:O,a:O.indexOf('Once'),h:`After the first time, it’s no longer ${N}.`,w:`After once, you’re subtracting from ${N-k}!`}},
+(r,d)=>{const [t,x]=pk(r,[['🐱','🐈'],['🍎','🍅'],['⭐','🌟'],['🐟','🐠'],['🌸','🌼'],['🔵','🟦']]),n=ri(r,3,6+Math.floor(d*7)),m=ri(r,5,10+Math.floor(d*8));let f='';sh(r,[...Array(n).fill(t),...Array(m).fill(x)]).forEach((c,j)=>{f+=c+(j%6==5?'<br>':'')});
+ const O=sh(r,[n-1,n,n+1].map(String));return{e:'🔍',q:`How many ${t} do you see?`,f,o:O,a:O.indexOf(String(n)),h:`Only count ${t}, not ${x}.`,w:`There are ${n} of ${t}.`}},
+r=>{const C=[['RED','#FF3B3B'],['BLUE','#2F6BFF'],['GREEN','#1FBF5B'],['AMBER','#FFB300']],ink=pk(r,C);let w=pk(r,C);while(w==ink)w=pk(r,C);const o=sh(r,C).map(c=>({t:'',bg:c[1],l:c[0]}));
+ return{e:'🎨',q:'What COLOR is the ink of this word?',f:`<span style="color:${ink[1]};font-size:56px;font-weight:700">${w[0]}</span>`,o,a:o.findIndex(x=>x.l==ink[0]),h:'Ignore what the word says.',w:`The ink is ${ink[0].toLowerCase()}!`}},
+r=>{const a=ri(r,3,9),b=ri(r,1,a-1),c=ri(r,1,9),x=`0.${a}`,y=`0.${b}${c}`,big=r()<.6,O=sh(r,[x,y,'Same']);return{e:'🧮',q:`Which is ${big?'bigger':'smaller'}: ${x} or ${y}?`,o:O,a:O.indexOf(big?x:y),h:'Compare the tenths first.',w:`${x} is ${a} tenths. ${y} is only about ${b} tenths.`}},
+r=>{let s=[],h;const t=ri(r,0,3);
+ if(t==0){const a=ri(r,2,20),k=ri(r,3,12);for(let i=0;i<6;i++)s.push(a+k*i);h=`Add ${k} each time.`}
+ else if(t==1){let v=ri(r,2,5);const k=ri(r,2,3),c=pk(r,[-2,-1,1,2,3]);for(let i=0;i<6;i++){s.push(v);v=v*k+c}h=`Multiply by ${k}, then ${c<0?'subtract '+(-c):'add '+c}.`}
+ else if(t==2){const m=ri(r,2,9),c=pk(r,[-3,-2,-1,1,2,4]);for(let i=0;i<6;i++)s.push((m+i)**2+c);h='Square numbers, shifted a little.'}
+ else{s=[ri(r,1,6),ri(r,2,8)];while(s.length<7)s.push(s[s.length-1]+s[s.length-2]);h='Add the two numbers before it.'}
+ const ans=s.pop(),S=new Set([ans]);while(S.size<3)S.add(ans+ri(r,-8,8));const O=sh(r,[...S].map(String));
+ return{e:'🧩',q:`What comes next? ${s.join(', ')}, ?`,o:O,a:O.indexOf(String(ans)),h,w:`The next number is ${ans}.`}}];
+const nn=(r,ans,pre=[])=>{const S=new Set([ans,...pre]),sp=Math.max(4,Math.round(Math.abs(ans)*.12));let g=0;while(S.size<3&&g++<80){const o=ans+ri(r,-sp,sp);if(o>0)S.add(o)}return sh(r,[...S].map(String))};
+const NEW=[
+(r,d)=>{const n=d>.45?4:3,S=sh(r,['🔺','🟦','⭕','⭐','🟩','🔶','💜','🟡']),base=S.slice(0,n),rp=sh(r,[...Array(n).keys()]),cp=sh(r,[...Array(n).keys()]),ans=base[(rp[n-1]+cp[n-1])%n];
+ let f=`<div class="grid" style="grid-template-columns:repeat(${n},1fr)">`;for(let i=0;i<n;i++)for(let j=0;j<n;j++)f+=(i==n-1&&j==n-1)?'<div class="cell qm">?</div>':`<div class="cell">${base[(rp[i]+cp[j])%n]}</div>`;f+='</div>';
+ const O=sh(r,[ans,...sh(r,[...base.filter(x=>x!=ans),S[n]]).slice(0,3)]);
+ return{e:'🧩',q:'Which symbol completes the grid?',f,o:O.map(t=>({t,s:44})),a:O.indexOf(ans),h:'Every row and column has each symbol exactly once.',w:`${ans} completes the pattern.`}},
+(r,d)=>{const step=pk(r,[45,90,135,-45,-90,-135]),pips=d>.35,acc=d>.65,start=ri(r,0,7)*45,nm=x=>((x%360)+360)%360;
+ const cell=(deg,n)=>`<svg viewBox="0 0 64 64" width="64" height="64"><rect x="2" y="2" width="60" height="60" rx="14" fill="#fff" stroke="#c9d3f5" stroke-width="2"/><g transform="rotate(${deg} 32 30)"><path d="M32 10 L45 36 L32 30 L19 36Z" fill="#FF4D8D"/></g>${Array.from({length:n},(_,i)=>`<circle cx="${32+(i-(n-1)/2)*8}" cy="54" r="3" fill="#3AA0FF"/>`).join('')}</svg>`;
+ const dg=i=>nm(start+(acc?step*i*(i+1)/2:step*i)),pc=i=>pips?i+1:0,key=(a,b)=>a+'|'+b,set=new Map([[key(dg(4),pc(4)),[dg(4),pc(4)]]]);let g=0;
+ while(set.size<4&&g++<60){const a=nm(pk(r,[dg(4)+45,dg(4)-45,dg(4)+180,dg(4)+90,dg(4)-90,dg(3)])),b=pips?Math.max(1,pc(4)+pk(r,[-1,1,-2])):0;set.set(key(a,b),[a,b])}
+ const O=sh(r,[...set].map(([k,[a,b]])=>({k,t:cell(a,b)})));
+ return{e:'🔄',q:'Which shape comes next?',f:`<div class="vrow">${[0,1,2,3].map(i=>cell(dg(i),pc(i))).join('')}<div class="vq">?</div></div>`,o:O.map(x=>({t:x.t})),a:O.findIndex(x=>x.k==key(dg(4),pc(4))),h:`The arrow turns ${acc?'a bit more each step':Math.abs(step)+'° '+(step>0?'clockwise':'counter-clockwise')+' each step'}${pips?', and one more dot appears each time':''}.`,w:'You spotted the pattern!'}},
+r=>{const C=[['fruits',['🍎','🍌','🍇','🍓','🍉','🍍']],['vehicles',['🚗','🚌','🚲','🚂','🚢','🚁']],['animals',['🐶','🐱','🐭','🐰','🦊','🐻']],['balls',['⚽','🏀','🏈','🎾','🏐','🏓']],['clothes',['👕','👖','🧦','🧢','🧣','🧤']],['instruments',['🎸','🎹','🥁','🎺','🎻','🎷']]],[a,b]=sh(r,C).slice(0,2),x=pk(r,b[1]),O=sh(r,[...sh(r,a[1]).slice(0,3),x]);
+ return{e:'🧐',q:'Which one does not belong?',o:O.map(t=>({t,s:50})),a:O.indexOf(x),h:`Three of them are ${a[0]}.`,w:`${x} is not one of the ${a[0]}!`}},
+(r,d)=>{const t=ri(r,0,2);let s=[];if(t==0){const a=ri(r,2,20),k=ri(r,3,9+Math.floor(d*15));for(let i=0;i<6;i++)s.push(a+k*i)}else if(t==1){let v=ri(r,2,4);const k=ri(r,2,3);for(let i=0;i<6;i++){s.push(v);v*=k}}else{const m=ri(r,2,8);for(let i=0;i<6;i++)s.push((m+i)**2)}
+ const p=ri(r,1,4),ans=s[p];return{e:'🕳️',q:`Find the missing number: ${s.map((x,i)=>i==p?'?':x).join(', ')}`,o:nn(r,ans),a:0,h:t==0?'The same amount is added each time.':t==1?'Each number is multiplied by the same amount.':'These are square numbers.',w:`The missing number is ${ans}.`,_ans:String(ans)}},
+r=>{const P=[['Cat','Kitten','Dog','Puppy'],['Hot','Cold','Up','Down'],['Bird','Fly','Fish','Swim'],['Hand','Glove','Foot','Sock'],['Day','Night','Light','Dark'],['Eye','See','Ear','Hear'],['Pen','Write','Knife','Cut'],['Bee','Hive','Bird','Nest'],['Teacher','School','Doctor','Hospital'],['Milk','Cow','Egg','Hen'],['Finger','Hand','Toe','Foot'],['Sun','Day','Moon','Night']],[a,b,c,ans]=pk(r,P),O=sh(r,[ans,...sh(r,P.map(x=>x[3]).filter(x=>x!=ans&&x!=b&&x!=c&&x!=a)).slice(0,2)]);
+ return{e:'🔗',q:`${a} is to ${b} as ${c} is to…?`,o:O,a:O.indexOf(ans),h:`Find how ${a} and ${b} are connected.`,w:`${c} goes with ${ans}, just like ${a} goes with ${b}.`}},
+(r,d)=>{const step=ri(r,1,4)+(d>.5?ri(r,0,2):0),start=ri(r,0,25),L=n=>String.fromCharCode(65+(((n%26)+26)%26)),s=[0,1,2,3,4].map(i=>L(start+step*i)),ans=L(start+step*5),S=new Set([ans,L(start+step*5+1),L(start+step*5-1),L(start+step*4+2)]);
+ const O=sh(r,[...S].slice(0,4));return{e:'🔡',q:`What letter comes next? ${s.join(', ')}, ?`,o:O,a:O.indexOf(ans),h:`Count how many letters you skip each time. After Z it wraps back to A.`,w:`The letters jump by ${step}, so ${ans} is next.`}},
+(r,d)=>{const W=sh(r,['Bloops','Razzies','Lazzies','Zinks','Plorps','Wugs','Fenns']),[A,B,C,D]=W,t=ri(r,0,2),O=['Yes','No','Can’t tell'];let q,ans,w;
+ if(t==0){q=d>.5?`All ${A} are ${B}. All ${B} are ${C}. All ${C} are ${D}. Are all ${A} ${D}?`:`All ${A} are ${B}. All ${B} are ${C}. Are all ${A} ${C}?`;ans='Yes';w='If A fits inside B, and B fits inside C, then A fits inside C.'}
+ else if(t==1){q=`All ${A} are ${B}. All ${C} are ${B}. Are all ${A} ${C}?`;ans='Can’t tell';w=`Both groups are inside ${B}, but that doesn’t connect them.`}
+ else{q=`No ${A} are ${B}. All ${C} are ${B}. Are any ${A} ${C}?`;ans='No';w=`${C} are all ${B}, and no ${A} are ${B}.`}
+ return{e:'🫧',q,o:O,a:O.indexOf(ans),h:'Draw circles inside circles on paper.',w}},
+r=>{const n1=ri(r,3,6),i=ri(r,1,3),t=i*(n1-1),n2=ri(r,7,12),ans=i*(n2-1),O=nn(r,ans,[i*n2,t*2]).map(x=>x+' seconds');
+ return{e:'🕰️',q:`A clock takes ${t} seconds to strike ${n1}. How long does it take to strike ${n2}?`,o:O,a:O.indexOf(ans+' seconds'),h:'Count the gaps between strikes, not the strikes.',w:`${n2} strikes have ${n2-1} gaps of ${i} seconds, so ${ans} seconds.`}},
+r=>{let a,b,c,e;do{b=ri(r,2,9);e=ri(r,2,9);a=ri(r,1,b-1);c=ri(r,1,e-1)}while(a*e==c*b);const x=`${a}/${b}`,y=`${c}/${e}`,big=a*e>c*b,O=sh(r,[x,y,'Same']);
+ return{e:'➗',q:`Which fraction is bigger: ${x} or ${y}?`,o:O,a:O.indexOf(big?x:y),h:'Turn both into decimals, or cross-multiply.',w:`${big?x:y} is the bigger one.`}},
+r=>{const [p,q]=pk(r,[['🍎','🍌'],['🐶','🐱'],['⚽','🏀'],['🍕','🍔'],['🚗','🚲']]);let a=ri(r,2,9),b=ri(r,1,9);if(a==b)b++;const ans=2*b+a;
+ return{e:'🧮',q:'Solve the emoji math!',f:`<div style="font-size:30px">${p}+${p} = ${2*a}<br>${p}+${q} = ${a+b}<br>${q}+${q}+${p} = ?</div>`,o:nn(r,ans),a:0,h:`Find ${p} first, then ${q}.`,w:`${p} = ${a}, ${q} = ${b}, so the answer is ${ans}.`,_ans:String(ans)}}];
+const NEW2=[
+(r,d)=>{const n=Math.min(8,4+Math.floor(d*5)),desc=r()<.4,x=[];while(x.length<n){const v=ri(r,3,99);if(!x.includes(v))x.push(v)}
+ return{e:'🔢',q:desc?'Tap the numbers from biggest to smallest!':'Tap the numbers from smallest to biggest!',type:'order',m:[...x].sort((a,b)=>desc?b-a:a-b),h:'Find the first one, then the next.',w:'Perfect order!'}},
+()=>({e:'🚦',q:'Wait for GREEN, then tap fast!',type:'react',h:'Tap too early and you lose.',w:'Great reflexes!'})];
+const RID=[
+['🧵','What can you break without ever touching it?','A promise','A glass','A bone','Think about words, not objects.','A promise can be broken without touching it.'],
+['☔','What goes up when the rain comes down?','An umbrella','A cloud','Water','Look at the people on the street.','An umbrella goes up!'],
+['🎹','What has keys but can’t open any lock?','A piano','A map','A door','Think about music.','A piano has keys, but it opens no locks.'],
+['🗺️','What has cities but no houses, and rivers but no water?','A map','A dream','A story','You can fold it.','A map shows cities and rivers without any of the real thing.'],
+['🕯️','What gets shorter the longer it burns?','A candle','A river','A mountain','It gives light.','A candle melts away as it burns.'],
+['📖','What has a spine but no bones?','A book','A snake','A shark','You can read it.','A book has a spine, but no bones.'],
+['🕳️','What gets bigger the more you take away?','A hole','A debt','A shadow','Think about digging.','The more you dig out, the bigger a hole gets.'],
+['🔊','What can you hear but never see or touch?','An echo','The wind','A shadow','It repeats what you say.','An echo!'],
+['🔤','What comes once in a minute, twice in a moment, but never in a thousand years?','The letter M','Time','A clock','Look at the letters, not the time.','The letter M appears once in “minute” and twice in “moment”.'],
+['🏏','A bat and a ball cost 110 rupees together. The bat costs 100 more than the ball. How much is the ball?','5 rupees','10 rupees','15 rupees','The bat is 100 MORE than the ball.','Ball 5 + bat 105 = 110.'],
+['🏁','You overtake the runner in 2nd place. What place are you in now?','2nd','1st','3rd','You only passed one person.','You take the 2nd place spot.'],
+['🍎','There are 3 apples and you take away 2. How many do YOU have?','2','1','3','Who took them?','You took 2, so you have 2.'],
+['📅','How many months have 31 days?','7','6','5','Count them on your fingers.','Seven months have 31 days.'],
+['💊','A doctor gives you 3 pills, one every 30 minutes. How long until they’re gone?','1 hour','1.5 hours','30 minutes','Count the gaps, not the pills.','You take the pills at 0, 30 and 60 minutes.'],
+['🪙','What has a head and a tail but no body?','A coin','A fish','A kite','You can flip it.','A coin!'],
+['🪮','What has many teeth but can’t bite?','A comb','A cat','A shark','You use it on your hair.','A comb!'],
+['🪡','What has one eye but can’t see?','A needle','A cat','A fish','You use it for sewing.','A needle!'],
+['💡','What can fill a room but takes up no space?','Light','Smoke','Water','Turn on a switch.','Light fills a room without taking up space.'],
+['🪑','What has legs but doesn’t walk?','A table','A dog','A bird','It stands still.','A table!'],
+['📚','What building has the most stories?','A library','A skyscraper','A castle','Think about reading.','A library is full of stories!'],
+['🧽','What is full of holes but still holds water?','A sponge','A net','A bucket','You use it for washing.','A sponge!'],
+['📏','What word becomes shorter when you add two letters to it?','Short','Tall','Small','Add “er”.','“Short” plus “er” makes “shorter”.'],
+['🏔️','Before Mount Everest was found, what was the highest mountain?','Mount Everest','K2','Kilimanjaro','It was always there.','Everest was the highest all along.'],
+['📆','What is always coming but never arrives?','Tomorrow','Yesterday','Today','You can never reach it.','Tomorrow never arrives, because it becomes today.'],
+['🧦','How many socks make 3 pairs?','6','3','9','One pair is two socks.','3 pairs × 2 socks = 6.'],
+['🌾','A farmer has 15 haystacks in one field and 5 in another. He puts them all together. How many haystacks does he have?','1','20','10','Put them together.','Pushed together, they make one big haystack.'],
+['🎣','Two fathers and two sons each catch one fish, but only 3 fish are caught. How?','Only 3 people went','One fish escaped','Someone ate a fish','Think about family trees.','A grandfather, a father and a son went fishing.'],
+['🔢','Which 3 numbers give the same answer when added or multiplied?','1, 2 and 3','2, 2 and 2','1, 1 and 4','Try 6.','1 + 2 + 3 = 6 and 1 × 2 × 3 = 6.'],
+['🏞️','What runs but never walks, and has a mouth but never talks?','A river','A car','A clock','Look at a map.','A river!'],
+['🏷️','What is yours, but other people use it more than you?','Your name','Your phone','Your bed','They call you by it.','Your name!'],
+['🎂','What goes up but never comes down?','Your age','A ball','Smoke','It happens every birthday.','Your age only goes up.'],
+['🫖','What starts with T, ends with T, and has T inside it?','A teapot','A tent','A tree','It has tea in it.','A teapot!'],
+['🥚','How can you drop a raw egg on a concrete floor without cracking it?','Concrete is hard to crack','Wrap it in paper','Drop it slowly','Read the question again.','Concrete floors are very hard to crack!'],
+['🪨','If you throw a red stone into the blue sea, what does it become?','Wet','Purple','Lost','It’s about water.','It gets wet!'],
+['🐴','A man rode into town on Friday, stayed three days, and rode out on Friday. How?','His horse was named Friday','He lied','He left on Thursday','Think about names.','His horse was named Friday!'],
+['🧑','Why can’t a man living in Delhi be buried in Mumbai?','He is still alive','It’s too far','It’s against the law','Read the first words again.','A man who is living can’t be buried at all!'],
+['🍳','What has to be broken before you can use it?','An egg','A phone','A pencil','Breakfast time.','An egg!'],
+['🃏','What do you cut on a table but never eat?','A deck of cards','Bread','Cloth','Think of a game.','You “cut” a deck of cards.'],
+['🚤','A boat has a ladder with 6 rungs. The tide rises 1 foot an hour. How many rungs are underwater after 2 hours?','0','2','4','What does the boat do when the tide rises?','The boat floats up with the water, so no rungs are covered.'],
+['🕳️','How much dirt is in a hole that is 3 m long, 3 m wide and 3 m deep?','None, it’s a hole','27 cubic metres','9 cubic metres','Read it carefully.','A hole has no dirt in it!'],
+['🐱','There are 3 cats in a room and each cat sees 2 other cats. How many cats are there?','3','6','2','Each one sees the other two.','Three cats, each looking at the other two.'],
+['9️⃣','How many times does the digit 9 appear from 1 to 100?','20','10','11','Count the 9s in 19, 29, 90 to 99.','Ten in the units place and ten in the tens place.'],
+['➕','Add this slowly: 1000 + 40 + 1000 + 30 + 1000 + 20 + 1000 + 10','4100','5000','4200','Go step by step.','The total is 4100, not 5000.'],
+['⚙️','5 machines make 5 widgets in 5 minutes. How long do 100 machines take to make 100 widgets?','5 minutes','100 minutes','20 minutes','Each machine makes one widget in 5 minutes.','Each machine makes 1 widget in 5 minutes.'],
+['🪷','Lily pads double every day and cover a lake on day 48. When was it half covered?','Day 47','Day 24','Day 12','What happens in one more day?','If it doubles in a day, half was one day before.'],
+['🧱','What has a bottom at the top?','Your legs','A mountain','A hat','Look at your body.','Your legs have a “bottom” at the top.']
+];
+const rid=k=>{const [e,q,a,x,y,h,w]=RID[k],O=sh(R(k+31),[a,x,y]);return{e,q,o:O,a:O.indexOf(a),h,w}};
+const RB=sh(R(777),[...Array(RID.length).keys()]);
+const NEW3=[(r,d)=>({e:'🎵',q:'Watch the pads, then repeat the pattern!',type:'simon',m:Array.from({length:Math.min(8,3+Math.floor(d*5)+ri(r,0,1))},()=>ri(r,0,3)),h:'Say the colors out loud.',w:'Great ears and eyes!'}),
+(r,d)=>{const E=sh(r,['🐶','🐱','🐸','🦊','🐼','🐵','🦁','🐯','🐰']).slice(0,d>.5?8:6);return{e:'🃏',q:'Find all the matching pairs!',type:'pairs',m:sh(r,[...E,...E]),h:'Remember where each card is.',w:'Perfect memory!'}}];
+FAM.push(...NEW,...NEW2,...NEW3);const NB=FAM.length;
+const lv=i=>{if(i<LV.length)return LV[i];const j=i-LV.length;if(j%4==0&&j/4<RID.length)return rid(RB[j/4]);const perm=sh(R(9000+Math.floor(j/NB)),[...Array(NB).keys()]),r=R(i+1),v=FAM[perm[j%NB]](r,Math.min(1,i/TOTAL));if(v._ans){const k=v.o.indexOf(v._ans);v.a=k}return v};
+const PAL=[['#4F8DFF','#2B4FD8'],['#FF8A5C','#E8453C'],['#2FD6A1','#0F8F7A'],['#B27CFF','#6B3FD6'],['#FFC23D','#F27A0A'],['#FF6FA5','#C2368A']];
+let st={L:0,type:null,locked:false,t:null,err:0,hinted:false,n:0};
+let coins=store('bt:coins')??30,done=store('bt:done')||0,stars=store('bt:stars')||{};
+const total=()=>Object.values(stars).reduce((a,b)=>a+b,0);
+
+const BODY=`<path d="M53 82 h14 v14 q0 5 -5 5 h-4 q-5 0 -5 -5z" fill="#F2A3B7" stroke="#D9527F" stroke-width="3" stroke-linejoin="round"/><g fill="#FF9DBE" stroke="#D9527F" stroke-width="7" stroke-linejoin="round"><circle cx="105.0" cy="51.0" r="12"/><circle cx="102.3" cy="62.6" r="12"/><circle cx="94.5" cy="72.9" r="12"/><circle cx="82.5" cy="80.4" r="12"/><circle cx="67.8" cy="84.5" r="12"/><circle cx="52.2" cy="84.5" r="12"/><circle cx="37.5" cy="80.4" r="12"/><circle cx="25.5" cy="72.9" r="12"/><circle cx="17.7" cy="62.6" r="12"/><circle cx="15.0" cy="51.0" r="12"/><circle cx="17.7" cy="39.4" r="12"/><circle cx="25.5" cy="29.1" r="12"/><circle cx="37.5" cy="21.6" r="12"/><circle cx="52.2" cy="17.5" r="12"/><circle cx="67.8" cy="17.5" r="12"/><circle cx="82.5" cy="21.6" r="12"/><circle cx="94.5" cy="29.1" r="12"/><circle cx="102.3" cy="39.4" r="12"/><ellipse cx="60" cy="51" rx="45" ry="34"/></g><g fill="#FF9DBE"><circle cx="105.0" cy="51.0" r="12"/><circle cx="102.3" cy="62.6" r="12"/><circle cx="94.5" cy="72.9" r="12"/><circle cx="82.5" cy="80.4" r="12"/><circle cx="67.8" cy="84.5" r="12"/><circle cx="52.2" cy="84.5" r="12"/><circle cx="37.5" cy="80.4" r="12"/><circle cx="25.5" cy="72.9" r="12"/><circle cx="17.7" cy="62.6" r="12"/><circle cx="15.0" cy="51.0" r="12"/><circle cx="17.7" cy="39.4" r="12"/><circle cx="25.5" cy="29.1" r="12"/><circle cx="37.5" cy="21.6" r="12"/><circle cx="52.2" cy="17.5" r="12"/><circle cx="67.8" cy="17.5" r="12"/><circle cx="82.5" cy="21.6" r="12"/><circle cx="94.5" cy="29.1" r="12"/><circle cx="102.3" cy="39.4" r="12"/><ellipse cx="60" cy="51" rx="45" ry="34"/></g><ellipse cx="60" cy="74" rx="30" ry="8" fill="#F57FA5" opacity=".4"/><g fill="none" stroke="#D9527F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42 q8 -10 17 -3 t12 -7"/><path d="M16 57 q6 -6 12 0"/><path d="M33 25 q6 7 14 2"/><path d="M22 70 q6 -5 11 0"/><path d="M22 30 q4 3 9 0"/><g transform="translate(120 0) scale(-1 1)"><path d="M24 42 q8 -10 17 -3 t12 -7"/><path d="M16 57 q6 -6 12 0"/><path d="M33 25 q6 7 14 2"/><path d="M22 70 q6 -5 11 0"/><path d="M22 30 q4 3 9 0"/></g><path d="M60 17 Q55 30 61 42 T58 68" stroke="#C94A74" stroke-width="3.5"/></g><ellipse cx="38" cy="29" rx="13" ry="5" fill="#fff" opacity=".22" transform="rotate(-25 38 29)"/>`;
+const brain=(m='happy',w=130)=>{const mouth={happy:'<path d="M47 68 q13 14 26 0z" fill="#7A1F40" stroke="#7A1F40" stroke-width="3.5" stroke-linejoin="round"/>',sad:'<path d="M47 76 q13 -12 26 0" fill="none" stroke="#7A1F40" stroke-width="4.5" stroke-linecap="round"/>',idle:'<path d="M49 70 q11 9 22 0" fill="none" stroke="#7A1F40" stroke-width="4.5" stroke-linecap="round"/>'}[m],dy=m=='sad'?3:0;
+ return `<svg class="brain" viewBox="0 0 120 114" width="${w}" aria-hidden="true">${BODY}<g class="eyes"><circle cx="46" cy="54" r="9" fill="#fff"/><circle cx="74" cy="54" r="9" fill="#fff"/><circle cx="48" cy="${55+dy}" r="4.5" fill="#222"/><circle cx="72" cy="${55+dy}" r="4.5" fill="#222"/><circle cx="50" cy="${53+dy}" r="1.6" fill="#fff"/><circle cx="74" cy="${53+dy}" r="1.6" fill="#fff"/></g>${m=='happy'?'<circle cx="33" cy="66" r="5.5" fill="#FF5C8A" opacity=".45"/><circle cx="87" cy="66" r="5.5" fill="#FF5C8A" opacity=".45"/>':''}${mouth}</svg>`};
+
+function confetti(){const c=document.getElementById('cf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const K=['#FFC83D','#FF5252','#35C46B','#3AA0FF','#fff','#B27CFF'];
+ const P=Array.from({length:90},()=>({x:innerWidth/2,y:innerHeight*.38,vx:(Math.random()-.5)*16,vy:-Math.random()*15-3,r:Math.random()*7+5,c:K[Math.floor(Math.random()*K.length)],a:Math.random()*6}));let f=0;
+ (function d(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.45;p.x+=p.vx;p.y+=p.vy;p.a+=.25;x.fillStyle=p.c;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6);x.restore()});if(++f<100)requestAnimationFrame(d);else x.clearRect(0,0,c.width,c.height)})()}
+let ac;const tone=(f,t=.12,d=0)=>{try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.type='triangle';g.gain.value=.07;o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+d);o.stop(ac.currentTime+d+t)}catch(e){}};
+const TH=[['Brain Valley','🌿','#4F8DFF','#2B4FD8','🍃','👒'],['Starlight Lab','🚀','#6A4DFF','#24146B','⭐','🪖'],['Coral Reef','🐠','#1FB6D4','#0B5FA8','🫧','🎩'],['Candy Land','🍭','#FF6FA5','#B83BA0','🍬','👑'],['Sunny Desert','🌵','#FFB03D','#E0572A','☀️','🧢'],['Frost Peak','❄️','#7FC8FF','#3A6BD6','❄️','🎓'],['Lava Cave','🌋','#FF6A3D','#8E1E2E','🔥','⛑️'],['Night City','🌃','#3B3F9E','#14163D','✨','🎩']];
+const world=i=>TH[Math.floor(i/25)%8],wn=i=>Math.floor(i/25)+1;
+function theme(i){const t=world(i),st=document.documentElement.style;st.setProperty('--bg',t[2]);st.setProperty('--bg2',t[3]);document.querySelectorAll('.bk').forEach(x=>x.remove());
+ for(let k=0;k<10;k++){const d=document.createElement('div'),z=22+Math.random()*34;d.className='bk';d.textContent=t[4];d.style.cssText=`font-size:${z}px;left:${Math.random()*96}%;animation-duration:${12+Math.random()*14}s;animation-delay:-${Math.random()*20}s`;document.body.appendChild(d)}}
+function enter(i){if(i%25==0&&st.intro!==i&&i<TOTAL){st.intro=i;clear();bg(i);const t=world(i);$.innerHTML=`<div class="hero" style="margin-top:20px"><div class="bob" style="position:relative">${brain('happy',150)}<span class="hat">${t[5]}</span></div></div><div class="logo" style="font-size:44px;transform:none;margin-top:34px">World ${wn(i)}</div><div class="logo" style="font-size:50px;transform:rotate(-2deg)">${t[1]} <span>${t[0]}</span></div><p class="sub">New puzzles ahead. Good luck!</p><button class="btn y" data-act="go" data-i="${i}">Start World ${wn(i)}</button>`}else play(i)}
+let hp=null;
+function clear(){clearInterval(st.t);clearInterval(hp);st.type=null;st.locked=false;MD.className=''}
+function bg(i){theme(i)}
+function home(){clear();bg(Math.min(done,TOTAL-1));const n=Math.min(done+1,TOTAL);
+ $.innerHTML=`<svg class="hills" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 Q80 20 170 60 T400 40 V120 H0Z" fill="rgba(255,255,255,.14)"/><path d="M0 92 Q100 52 200 86 T400 72 V120 H0Z" fill="rgba(0,0,0,.17)"/></svg><div class="hero"><svg class="rays" viewBox="-100 -100 200 200" aria-hidden="true">${Array.from({length:12},(_,i)=>`<path d="M0 0 L-13 -100 L13 -100Z" transform="rotate(${i*30})"/>`).join('')}</svg><div class="bob" style="position:relative">${brain('idle',160)}<span class="hat">${world(done)[5]}</span></div></div><div class="logo">Think<span>ora</span></div><p class="sub">Tricky puzzles that twist your thinking!</p>
+ <div class="pills"><b>🪙 ${coins}</b><b>⭐ ${total()}</b><b>${world(done)[1]} World ${wn(done)}</b></div>
+ <button class="btn y" data-act="play" data-i="${done>=TOTAL?0:done}">Play · Level ${n}</button><button class="btn w" data-act="levels">All levels</button>`}
+let pg=0;function levels(p){clear();bg(0);if(p===undefined)p=Math.floor(Math.min(done,TOTAL-1)/PG);pg=Math.max(0,Math.min(TOTAL/PG-1,p));bg(pg*PG);
+ $.innerHTML=`<div class="hd"><button class="round" data-act="home" aria-label="Back">←</button><div class="lvl">World ${pg+1}<small>${world(pg*PG)[1]} ${world(pg*PG)[0]} · ⭐ ${total()}</small></div><span style="width:50px"></span></div><div class="lg">${Array.from({length:PG},(_,k)=>{const i=pg*PG+k,c=i<done?'done':i==done?'now':'lock',s=stars[i]||0;return `<button class="lt ${c}" ${c=='lock'?'disabled':`data-act="play" data-i="${i}"`}>${c=='lock'?'🔒':i+1}${c=='done'?`<small>${'★'.repeat(s)}${'☆'.repeat(3-s)}</small>`:''}</button>`}).join('')}</div><div class="pg"><button class="round" data-act="pg" data-p="${pg-1}" aria-label="Previous page">‹</button><b>${pg*PG+1}–${pg*PG+PG}</b><button class="round" data-act="pg" data-p="${pg+1}" aria-label="Next page">›</button></div>`}
+function play(i){clear();st.L=i;st.hinted=false;st.err=0;st.n=0;const v=st.v=lv(i);bg(i);st.type=v.type||'pick';
+ let body='';
+ if(v.type=='wait'){st.n=v.s||5;body=`<div class="big" id="cd">${st.n}</div>`;st.t=setInterval(()=>{if(--st.n<=0)return win();document.getElementById('cd').textContent=st.n},1000)}
+ else if(v.type=='taps')body=`<div class="arena"><button class="tap" id="tp" data-act="tap">TAP!</button></div><div class="big" id="cd">0 / ${v.n}</div>`;
+ else if(v.type=='hold')body='<div class="arena"><button class="tap" id="tp" data-hold="1" oncontextmenu="return false">HOLD</button></div>';
+ else if(v.type=='mem'){st.n=v.m.length>4?5:3;st.mi=0;body=`<div class="mrow">${v.m.map(x=>`<span style="font-size:${v.m.length>4?36:52}px">${x}</span>`).join('')}</div><div class="big" id="cd">${st.n}</div><div id="mb"></div>`;
+  st.t=setInterval(()=>{if(--st.n>0)return document.getElementById('cd').textContent=st.n;clearInterval(st.t);document.querySelector('.mrow').remove();document.getElementById('cd').remove();document.getElementById('hb').textContent='Tap them in the same order!';
+   const o=[...v.m].sort(()=>Math.random()-.5);document.getElementById('mb').innerHTML=`<div class="opts">${o.map(x=>`<button class="opt" data-mem="${x}" style="font-size:50px">${x}</button>`).join('')}</div>`},1000)}
+ else if(v.type=='simon'){st.phase='watch';st.mi=0;body=`<div class="big" id="cd" style="font-size:44px;margin-bottom:10px">Watch!</div><div class="pads">${['#FF4D6D','#3AA0FF','#35C46B','#FFC83D'].map((c,j)=>`<button class="pad" data-sim="${j}" style="background:${c}" aria-label="Pad ${j+1}"></button>`).join('')}</div>`;
+ let k=0;const seq=v.m,fl=j=>{const el=document.querySelector(`[data-sim="${j}"]`);if(!el)return;el.classList.add('lit');tone(330+j*110,.25);setTimeout(()=>el.classList.remove('lit'),420)};
+ setTimeout(()=>{st.t=setInterval(()=>{if(k>=seq.length){clearInterval(st.t);st.phase='in';const c=document.getElementById('cd');if(c)c.textContent='Your turn!';return}fl(seq[k++])},800)},900)}
+ else if(v.type=='pairs'){st.open=[];st.found=0;st.busy=false;body=`<div class="cards">${v.m.map((x,j)=>`<button class="pc" data-card="${j}" aria-label="Card"><span>?</span></button>`).join('')}</div>`}
+ else if(v.type=='order'){st.mi=0;const o=[...v.m].sort(()=>Math.random()-.5);body=`<div class="opts">${o.map(x=>`<button class="opt" data-mem="${x}" style="font-size:34px">${x}</button>`).join('')}</div>`}
+ else if(v.type=='react'){st.go=false;body='<div class="arena"><button class="tap" id="tp" data-act="react" style="background:#9AA3C4;box-shadow:0 10px 0 #6B7399;color:#fff">WAIT</button></div>';st.t=setTimeout(()=>{const b=document.getElementById('tp');if(b){st.go=true;b.textContent='TAP!';b.style.background='radial-gradient(circle at 35% 28%,#7DFFB0,#35C46B)';b.style.boxShadow='0 10px 0 #1E9A4E'}},1500+Math.random()*2000)}
+ else{const o=v.o.map(x=>typeof x=='string'?{t:x}:x);body=`${v.tm?'<div class="tbar"><i id="tb"></i></div>':''}<div class="opts ${o.some(x=>x.t.length>9&&x.t[0]!='<')?'one':''}">${o.map((x,j)=>`<button class="opt" data-pick="${j}" ${x.l?`aria-label="${x.l}"`:''} style="${x.s?`font-size:${x.s}px;`:''}${x.bg?`background:linear-gradient(rgba(255,255,255,.3),transparent 55%),${x.bg};box-shadow:0 7px 0 rgba(0,0,0,.3)`:''}">${x.t}</button>`).join('')}</div>`;
+  if(v.tm)setTimeout(()=>{const b=document.getElementById('tb');if(b){b.style.transition=`width ${v.tm}s linear`;b.style.width='0'}},60),st.t=setTimeout(()=>fail('Time’s up!'),v.tm*1000+80)}
+ $.innerHTML=`<div class="hd"><button class="round" data-act="levels" aria-label="Levels">←</button><div class="lvl">Level ${i+1}<small>${world(i)[1]} ${world(i)[0]} · 🪙 <span id="co">${coins}</span></small></div><button class="round" data-act="hint" aria-label="Hint">💡<span class="badge">10</span></button></div>
+ <div class="card"><div class="peek" id="pk">${brain('idle',66)}</div><div class="stage">${v.e}</div><div class="q">${v.q}</div>${v.f?`<div class="fld">${v.f}</div>`:''}<div class="hintbox" id="hb"></div></div>${body}`;
+ if(v.tm)setTimeout(()=>{const b=document.getElementById('tb');if(b){b.style.transition=`width ${v.tm}s linear`;b.style.width='0'}},80)}
+function mood(m){const p=document.getElementById('pk');if(p){p.innerHTML=brain(m,66);setTimeout(()=>{const q=document.getElementById('pk');if(q)q.innerHTML=brain('idle',66)},900)}}
+function hint(){const hb=document.getElementById('hb');if(st.hinted||st.locked)return;
+ if(coins<10){coins+=20;hb.textContent='Demo: a rewarded video ad would play here. +20 coins!'}
+ else{coins-=10;st.hinted=true;hb.textContent='💡 '+st.v.h}
+ store('bt:coins',coins);document.getElementById('co').textContent=coins}
+function modal(h,p,btn,act,m,extra=''){st.locked=true;clearInterval(st.t);clearInterval(hp);MD.className='on';
+ MD.innerHTML=`<div class="card">${brain(m,120)}<h2 class="${m=='sad'?'sad':''}">${h}</h2>${extra}<p>${p}</p><button class="btn ${m=='sad'?'y':''}" data-act="${act}" style="margin-bottom:4px">${btn}</button></div>`}
+function win(){if(st.locked)return;const L=st.L,last=L==TOTAL-1,s=Math.max(1,3-st.err-(st.hinted?1:0)),gain=Math.max(0,s-(stars[L]||0))*5;
+ if(L>=done){done=L+1;store('bt:done',done)}stars[L]=Math.max(stars[L]||0,s);coins+=gain;store('bt:stars',stars);store('bt:coins',coins);
+ const ex=`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=s?'on':''}" style="animation-delay:${i*.18}s">★</span>`).join('')}</div>${gain?`<div class="gain">+${gain} 🪙</div>`:''}`;
+ modal(['Brilliant!','Genius!','Nailed it!','Big brain!'][L%4],st.v.w,last?'All levels':'Next level',last?'levels':'next','happy',ex);confetti()}
+function fail(msg){if(st.locked)return;modal('Oops!',msg,'Try again','retry','sad')}
+function bad(b,msg){st.err++;b.classList.add('bad');b.disabled=true;mood('sad');const hb=document.getElementById('hb');hb.textContent=msg;hb.className='hintbox err'}
+
+document.addEventListener('pointerdown',e=>{if(st.type!='hold'||st.locked||!e.target.closest('[data-hold]'))return;const b=document.getElementById('tp');let p=0;clearInterval(hp);
+ hp=setInterval(()=>{p+=50/(1000*(st.v.hs||3));b.style.background=`conic-gradient(var(--g) ${p*100}%,var(--y) 0)`;if(p>=1){clearInterval(hp);win()}},50)});
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{if(st.type!='hold'||st.locked)return;clearInterval(hp);const b=document.getElementById('tp');if(b)b.style.background=''}));
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-act],[data-pick],[data-mem],[data-sim],[data-card]');
+ if(st.type=='wait'&&!st.locked&&!(b&&['levels','hint'].includes(b.dataset.act)))return fail('You touched the screen!');
+ if(!b||(st.locked&&!MD.contains(b)))return;
+ const v=st.v;
+ if(b.dataset.sim!==undefined){if(st.phase!='in'||st.locked)return;const j=+b.dataset.sim;b.classList.add('lit');tone(330+j*110,.2);setTimeout(()=>b.classList.remove('lit'),250);if(j==v.m[st.mi]){if(++st.mi>=v.m.length)win()}else fail('Wrong pad!');return}
+ if(b.dataset.card!==undefined){if(st.busy||st.locked||b.classList.contains('open')||b.classList.contains('done'))return;const j=+b.dataset.card;b.classList.add('open');b.firstChild.textContent=v.m[j];st.open.push(j);
+  if(st.open.length==2){const [x,y]=st.open,bs=document.querySelectorAll('.pc');st.busy=true;
+   if(v.m[x]==v.m[y]){bs[x].className='pc done';bs[y].className='pc done';st.open=[];st.busy=false;st.found+=2;if(st.found>=v.m.length)win()}
+   else{st.err++;mood('sad');setTimeout(()=>{[x,y].forEach(k=>{bs[k].className='pc';bs[k].firstChild.textContent='?'});st.open=[];st.busy=false},700)}}return}
+ if(b.dataset.pick!==undefined){if(+b.dataset.pick==v.a)return win();return bad(b,'Not quite. Try again!')}
+ if(b.dataset.mem!==undefined){if(b.dataset.mem==v.m[st.mi]){b.classList.add('got');b.disabled=true;b.insertAdjacentHTML('beforeend',`<i>${++st.mi}</i>`);if(st.mi>=v.m.length)win()}else fail('That’s not the right order!');return}
+ const a=b.dataset.act;
+ if(a=='play')enter(+b.dataset.i);else if(a=='go')play(+b.dataset.i);else if(a=='home')home();else if(a=='levels')levels();
+ else if(a=='pg')levels(+b.dataset.p);else if(a=='react'){if(!st.go)return fail('Too early! Wait for green.');win()}else if(a=='next')enter(st.L+1);else if(a=='retry')play(st.L);else if(a=='hint')hint();
+ else if(a=='tap'){st.n++;document.getElementById('cd').textContent=st.n+' / '+v.n;if(st.n>=v.n)return win();
+  if(v.move){const ar=document.querySelector('.arena');b.style.left=Math.random()*(ar.clientWidth-180)+'px';b.style.top=Math.random()*(ar.clientHeight-180)+'px'}}});
+home();
+</script>
+</body>
+</html>
